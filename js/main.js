@@ -19,6 +19,7 @@ var satellite_mesh;
 var radius = 6371;
 var loadedTle = new Array(100);
 var tmpTle;
+var orbitLine;
 
 loadData();
 
@@ -64,8 +65,8 @@ function drawOrbit(){
         current.setMinutes(current.getMinutes() + step);
     }
 
-    var line = new THREE.Line(orbit, new THREE.LineBasicMaterial({color: 0xcc0000}));
-    scene.add(line);  
+    orbitLine = new THREE.Line(orbit, new THREE.LineBasicMaterial({color: 0xcc0000}));
+    scene.add(orbitLine);  
 }
 
 function init() {
@@ -116,7 +117,7 @@ function init() {
     rect = {x:0, y:0, z:0};
     rect = addPoint(geo.latitude, geo.longitude, geo.altitude);
 
-    satellite_geometry = new THREE.SphereGeometry(100,4,4);
+    satellite_geometry = new THREE.SphereGeometry(100, 8, 8);
     satellite_material = new THREE.MeshBasicMaterial({color: 0xff0000});
     satellite_mesh = new THREE.Mesh(satellite_geometry, satellite_material);
     satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
@@ -143,6 +144,12 @@ function animate() {
     geo = satellite.position.geographic(time);
     rect = addPoint(geo.latitude, geo.longitude, geo.altitude);
     satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
+
+    /* draw orbit (every 10 sec) */
+    if(dd.getSeconds() % 10 == 0){
+        scene.remove(orbitLine);
+        drawOrbit();
+    }
 
     /* show log */
     $("div#info").empty();
