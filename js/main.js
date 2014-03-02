@@ -54,14 +54,14 @@ function drawOrbit(){
     var current = new Date();
 
     var orbit = new THREE.Geometry();
-
-    for (var i = 0; i < 60*6; i++) {
+    var step = 1;
+    for (var i = 0; i < 60 * 6 / step; i++) {
         time = new Orb.Time(current);
         geo = satellite.position.geographic(time);
         var pos = {x:0, y:0, z:0};
         pos = addPoint(geo.latitude, geo.longitude, geo.altitude);
         orbit.vertices.push( new THREE.Vertex( new THREE.Vector3(pos.x, pos.y, pos.z)));
-        current.setMinutes(current.getMinutes() + 1);
+        current.setMinutes(current.getMinutes() + step);
     }
 
     var line = new THREE.Line(orbit, new THREE.LineBasicMaterial({color: 0xcc0000}));
@@ -116,7 +116,7 @@ function init() {
     rect = {x:0, y:0, z:0};
     rect = addPoint(geo.latitude, geo.longitude, geo.altitude);
 
-    satellite_geometry = new THREE.SphereGeometry(100,12,12);
+    satellite_geometry = new THREE.SphereGeometry(100,4,4);
     satellite_material = new THREE.MeshBasicMaterial({color: 0xff0000});
     satellite_mesh = new THREE.Mesh(satellite_geometry, satellite_material);
     satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
