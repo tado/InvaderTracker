@@ -1,242 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>INVADER realtime tracker</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<style>
-		body {
-			color: #ffffff;
-			font-family:Monospace;
-			font-size:13px;
-			text-align:center;
-			background-color: #000000;
-			margin: 0px;
-			overflow: hidden;
-		}
+    <head>
+        <title>INVADER realtime tracker</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+                <style>
+                    body {
+                        color: #ffffff;
+                        font-family:Monospace;
+                        font-size:13px;
+                        text-align:center;
+                        background-color: #000000;
+                        margin: 0px;
+                        overflow: hidden;
+                    }
+                
+                #info {
+                    position: absolute;
+                    top: 0px;
+                    width: 100%;
+                    padding: 0 10px;
+                    text-align: left;
+                    font-size: 10px;
+                }
+                
+                a {
+                    
+                    color: #0080ff;
+                }
+                
+            </style>
+    </head>
+    <body>
+        <div id="container"></div>
+        <div id="info"></div>
+        
+        <script src="js/jquery-2.1.0.min.js"></script>
+        <script src="js/three.min.js"></script>
+        <script src="js/OrbitControls.js"></script>
+        <script src="js/stats.min.js"></script>
+        <script src="js/core.js"></script>
+        <script src="js/satellite.js"></script>
+        
+        <script>
+            var container, stats;
+            var camera, scene, renderer, controls;
+            var group;
+            var mouseX = 0, mouseY = 0;
 
-		#info {
-			position: absolute;
-			top: 0px; 
-			width: 100%;
-			padding: 0 10px;
-			text-align: left;
-			font-size: 10px;
-		}
+            var windowHalfX = window.innerWidth / 2;
+            var windowHalfY = window.innerHeight / 2;
 
-		a {
+            var date;
+            var time;
 
-			color: #0080ff;
-		}
+            var satellite;
+            var geo;
+            var rect;
+            var tle;
+            var satellite_geometry;
+            var satellite_material;
+            var satellite_mesh;
+            var elapsed = 0;
+            var radius = 6371;
+            var loadedTle = new Array(100);
+            var tmpTle;
 
-	</style>
-</head>
-<body>
+            loadData();
+            //init();
+            //animate();
 
-	<div id="container"></div>
-	<div id="info"></div>
+            function loadData(){
+                tle = {name:"", first_line:"", second_line:""};
+                
+                jQuery.ajax({
+                    url : "data/tle-new.txt",
+                    //url : "http://www.celestrak.com/NORAD/elements/tle-new.txt",
+                    type : "get",
+                    success : function(data){
+                        loadedTle = data.split("\n");
+                        for(var i = 0; i < loadedTle.length; i++){
+                            var myRe = /^........./;
+                            tmpTle = myRe.exec(loadedTle[i]);
+                    
+                            if(tmpTle[0] === "2014-009F"){
+                                tle.name = loadedTle[i];
+                                tle.first_line = loadedTle[i + 1];
+                                tle.second_line = loadedTle[i + 2];
+                    
+                                init();
+                                animate();
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
 
-	<script src="js/jquery-2.1.0.min.js"></script>
-	<script src="js/three.min.js"></script>
-	<script src="js/OrbitControls.js"></script>
-	<script src="js/stats.min.js"></script>
-	<script src="js/core.js"></script>
-	<script src="js/satellite.js"></script>
+            function init() {
+                
+                container = document.getElementById( 'container' );
+                
+                camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000 );
+                camera.position.z = 15000;
+                
+                scene = new THREE.Scene();
+                
+                group = new THREE.Object3D();
+                scene.add( group );
+                
+                // earth
+                
+                var loader = new THREE.TextureLoader();
+                loader.load( 'textures/land_ocean_ice_cloud_2048.jpg', function ( texture ) {
+                            
+                            var geometry = new THREE.SphereGeometry(6371, 32, 32);
+                            var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: true } );
+                            var mesh = new THREE.Mesh( geometry, material );
+                            group.add( mesh );
+                            
+                            } );
+                
+                renderer = new THREE.CanvasRenderer();
+                renderer.setClearColor( 0x000000 );
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                
+                controls = new THREE.OrbitControls( camera, renderer.domElement );
+                
+                container.appendChild( renderer.domElement );
+                
+                //stats
+                stats = new Stats();
+                stats.domElement.style.position = 'absolute';
+                stats.domElement.style.top = '0px';
+                stats.domElement.style.right = '0px';
+                container.appendChild( stats.domElement );
+                
+                document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+                window.addEventListener( 'resize', onWindowResize, false );
+                
+                date = new Date();
+                time = new Orb.Time(date);
+                
+                satellite = new Orb.Satellite(tle);
+                geo = satellite.position.geographic(time);
+                
+                rect = {x:0, y:0, z:0};
+                rect.x = (geo.altitude + radius) * Math.cos(Math.PI * geo.longitude / 180) * Math.cos(Math.PI * geo.latitude / 180);
+                rect.y = (geo.altitude + radius) * Math.sin(Math.PI * geo.longitude / 180) * Math.cos(Math.PI * geo.latitude / 180);
+                rect.z = (geo.altitude + radius) * Math.sin(Math.PI * geo.latitude / 180);
+                
+                satellite_geometry = new THREE.SphereGeometry(100,12,12);
+                satellite_material = new THREE.MeshBasicMaterial({color: 0xff0000});
+                satellite_mesh = new THREE.Mesh(satellite_geometry, satellite_material);
+                satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
+                group.add(satellite_mesh);
+            }
 
-	<script>
+            function onWindowResize() {
+                
+                windowHalfX = window.innerWidth / 2;
+                windowHalfY = window.innerHeight / 2;
+                
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                
+            }
 
-		var container, stats;
-		var camera, scene, renderer, controls;
-		var group;
-		var mouseX = 0, mouseY = 0;
+            function onDocumentMouseMove( event ) {
+                
+                mouseX = ( event.clientX - windowHalfX );
+                mouseY = ( event.clientY - windowHalfY );
+                
+            }
 
-		var windowHalfX = window.innerWidth / 2;
-		var windowHalfY = window.innerHeight / 2;
+            function animate() {
+                
+                var dd = new Date();
+                //dd.setTime(dd.getTime() + elapsed);
+                time = new Orb.Time(dd);
+                
+                geo = satellite.position.geographic(time);
+                //rect = satellite.position.rectangular(time);
+                rect = addPoint(geo.latitude, geo.longitude, geo.altitude);
+                
+                $("div#info").empty();
+                $("div#info").append("<h1>ARTSAT1: INVADER - realtime tracker α</h1>");
+                $("div#info").append(
+                                     "<p>"
+                                     + dd
+                                     + "<br/>lat = " + geo.latitude.toFixed(8)
+                                     + "<br/>lon = " + geo.longitude.toFixed(8)
+                                     + "<br/>alt = " + geo.altitude.toFixed(8) + "</p>"
+                                     );
+                
+                $("div#info").append("<p>"
+                                     + tle.name + "<br/>"
+                                     + tle.first_line + "<br/>"
+                                     + tle.second_line
+                                     + "</p>");
+                
+                $("div#info").append("<p><a href='readme.html'>about this page</a></p>");
+                
+                satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
+                elapsed += 1000.0 * 10.0;
+                
+                requestAnimationFrame(animate);
+                
+                render();
+                stats.update();
+                controls.update();
+                
+            }
 
-		var date;
-		var time;
+            function render() {
+                
+                renderer.render( scene, camera );
+            }
 
-		var satellite;
-		var geo;
-		var rect;
-		var tle;
-		var satellite_geometry;
-		var satellite_material;
-		var satellite_mesh;
-		var elapsed = 0;
-		var radius = 6371;
-		var loadedTle = new Array(100);
-		var tmpTle;
-
-		loadData();
-		//init();
-		//animate();
-
-		function loadData(){
-			tle = {name:"", first_line:"", second_line:""};
-
-			jQuery.ajax({
-				url : "data/tle-new.txt",
-				//url : "http://www.celestrak.com/NORAD/elements/tle-new.txt",
-				type : "get",
-				success : function(data){
-					loadedTle = data.split("\n");
-					for(var i = 0; i < loadedTle.length; i++){
-						var myRe = /^........./;
-						tmpTle = myRe.exec(loadedTle[i]);
-
-						if(tmpTle[0] === "2014-009F"){
-							tle.name = loadedTle[i];
-							tle.first_line = loadedTle[i + 1];
-							tle.second_line = loadedTle[i + 2];
-
-							init();
-							animate();
-							break;
-						}
-					}
-				}
-			});
-		}
-
-		function init() {
-
-			container = document.getElementById( 'container' );
-
-			camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000 );
-			camera.position.z = 15000;
-
-			scene = new THREE.Scene();
-
-			group = new THREE.Object3D();
-			scene.add( group );
-
-		    // earth
-
-		    var loader = new THREE.TextureLoader();
-		    loader.load( 'textures/land_ocean_ice_cloud_2048.jpg', function ( texture ) {
-
-		    	var geometry = new THREE.SphereGeometry(6371, 32, 32);
-		    	var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: true } );
-		    	var mesh = new THREE.Mesh( geometry, material );
-		    	group.add( mesh );
-
-		    } );
-
-		    renderer = new THREE.CanvasRenderer();
-		    renderer.setClearColor( 0x000000 );
-		    renderer.setSize( window.innerWidth, window.innerHeight );
-
-		    controls = new THREE.OrbitControls( camera, renderer.domElement );
-
-		    container.appendChild( renderer.domElement );
-
-			//stats
-			stats = new Stats();
-			stats.domElement.style.position = 'absolute';
-			stats.domElement.style.top = '0px';
-			stats.domElement.style.right = '0px';
-			container.appendChild( stats.domElement );
-
-			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-			window.addEventListener( 'resize', onWindowResize, false );
-
-			date = new Date();
-			time = new Orb.Time(date);
-
-			satellite = new Orb.Satellite(tle);
-			geo = satellite.position.geographic(time);
-
-			rect = {x:0, y:0, z:0};
-			rect.x = (geo.altitude + radius) * Math.cos(Math.PI * geo.longitude / 180) * Math.cos(Math.PI * geo.latitude / 180);
-			rect.y = (geo.altitude + radius) * Math.sin(Math.PI * geo.longitude / 180) * Math.cos(Math.PI * geo.latitude / 180);
-			rect.z = (geo.altitude + radius) * Math.sin(Math.PI * geo.latitude / 180); 
-			
-			satellite_geometry = new THREE.SphereGeometry(100,12,12);
-			satellite_material = new THREE.MeshBasicMaterial({color: 0xff0000});
-			satellite_mesh = new THREE.Mesh(satellite_geometry, satellite_material);
-			satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
-			group.add(satellite_mesh);
-		}
-
-		function onWindowResize() {
-
-			windowHalfX = window.innerWidth / 2;
-			windowHalfY = window.innerHeight / 2;
-
-			camera.aspect = window.innerWidth / window.innerHeight;
-			camera.updateProjectionMatrix();
-
-			renderer.setSize( window.innerWidth, window.innerHeight );
-
-		}
-
-		function onDocumentMouseMove( event ) {
-
-			mouseX = ( event.clientX - windowHalfX );
-			mouseY = ( event.clientY - windowHalfY );
-
-		}
-
-		function animate() {
-
-			var dd = new Date();
-			//dd.setTime(dd.getTime() + elapsed);
-			time = new Orb.Time(dd);
-
-			geo = satellite.position.geographic(time);
-			//rect = satellite.position.rectangular(time);
-			rect = addPoint(geo.latitude, geo.longitude, geo.altitude);
-
-			$("div#info").empty();
-			$("div#info").append("<h1>ARTSAT1: INVADER - realtime tracker α</h1>");
-			$("div#info").append(
-				"<p>"
-				+ dd
-				+ "<br/>lat = " + geo.latitude.toFixed(8)
-				+ "<br/>lon = " + geo.longitude.toFixed(8)
-				+ "<br/>alt = " + geo.altitude.toFixed(8) + "</p>"
-				);
-
-			$("div#info").append("<p>" 
-				+ tle.name + "<br/>"
-				+ tle.first_line + "<br/>"
-				+ tle.second_line
-				+ "</p>");
-
-			$("div#info").append("<p><a href='readme.html'>about this page</a></p>");
-
-			satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
-			elapsed += 1000.0 * 10.0;
-
-			requestAnimationFrame(animate);
-
-			render();
-			stats.update();
-			controls.update();
-
-		}
-
-		function render() {
-
-			renderer.render( scene, camera );
-		}
-
-		function addPoint(lat, lng, alt) {
-			var phi = (90 - lat) * Math.PI / 180;
-			var theta = (-lng) * Math.PI / 180;
-
-			var pos = {x:0, y:0, z:0};
-
-			pos.x = (radius + alt) * Math.sin(phi) * Math.cos(theta);
-			pos.y = (radius + alt) * Math.cos(phi);
-			pos.z = (radius + alt) * Math.sin(phi) * Math.sin(theta);
-
-			return pos;
-		}
+            function addPoint(lat, lng, alt) {
+                var phi = (90 - lat) * Math.PI / 180;
+                var theta = (-lng) * Math.PI / 180;
+                
+                var pos = {x:0, y:0, z:0};
+                
+                pos.x = (radius + alt) * Math.sin(phi) * Math.cos(theta);
+                pos.y = (radius + alt) * Math.cos(phi);
+                pos.z = (radius + alt) * Math.sin(phi) * Math.sin(theta);
+                
+                return pos;
+            }
 
 
-	</script>
+            </script>
 
-</body>
+    </body>
 </html>
