@@ -1,4 +1,4 @@
-# INVADER realtime tracker
+# ARTSAT1: INVADER realtime tracker
 
 [Demo page](http://yoppa.org/works/InvaderTracker/).
 
