@@ -122,7 +122,7 @@
             container = document.getElementById( 'container' );
 
             camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 100000 );
-            camera.position.z = 15000;
+            camera.position.z = 18000;
 
             scene = new THREE.Scene();
 
@@ -132,8 +132,7 @@
             /* earth */
 
             var loader = new THREE.TextureLoader();
-            loader.load( 'textures/land_ocean_ice_cloud_2048.jpg', function ( texture ) {
-
+            loader.load( 'textures/real_earth.jpg', function ( texture ) {
                 var geometry = new THREE.SphereGeometry(6371, 32, 32);
                 var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: true } );
                 var mesh = new THREE.Mesh( geometry, material );
