@@ -65,9 +65,39 @@
 		var satellite_mesh;
 		var elapsed = 0;
 		var radius = 6371;
+		var loadedTle = new Array(100);
+		var tmpTle;
 
-		init();
-		animate();
+		loadData();
+		//init();
+		//animate();
+
+		function loadData(){
+			tle = {name:"", first_line:"", second_line:""};
+
+			jQuery.ajax({
+				url : "data/tle-new.txt",
+				//url : "http://www.celestrak.com/NORAD/elements/tle-new.txt",
+				type : "get",
+				success : function(data){
+					loadedTle = data.split("\n");
+					for(var i = 0; i < loadedTle.length; i++){
+						var myRe = /^........./;
+						tmpTle = myRe.exec(loadedTle[i]);
+
+						if(tmpTle[0] === "2014-009F"){
+							tle.name = loadedTle[i];
+							tle.first_line = loadedTle[i + 1];
+							tle.second_line = loadedTle[i + 2];
+
+							init();
+							animate();
+							break;
+						}
+					}
+				}
+			});
+		}
 
 		function init() {
 
@@ -110,19 +140,6 @@
 
 			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 			window.addEventListener( 'resize', onWindowResize, false );
-
-			/* TLE INVADER (2014-009F) */ 
-			tle = {
-				"first_line":  "1 39577U 14009F   14060.87113583  .00097025  00000-0  11575-2 0   144",
-				"second_line": "2 39577  65.0140  52.6864 0006920 322.7443  37.3185 15.60509466   326"
-			}
-
-			/* TLE ISS
-			var tle = {
-				"first_line": "1 25544U 98067A   14059.48747252  .00016717  00000-0  10270-3 0  9005",
-				"second_line": "2 25544  51.6486 278.4410 0003203 192.0179 168.0896 15.50838095 34464"
-			}
-			*/
 
 			date = new Date();
 			time = new Orb.Time(date);
@@ -180,10 +197,13 @@
 				+ "<br/>lon = " + geo.longitude.toFixed(8)
 				+ "<br/>alt = " + geo.altitude.toFixed(8) + "</p>"
 				);
+
 			$("div#info").append("<p>" 
+				+ tle.name + "<br/>"
 				+ tle.first_line + "<br/>"
 				+ tle.second_line
 				+ "</p>");
+
 			$("div#info").append("<p><a href='readme.html'>about this page</a></p>");
 
 			satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
