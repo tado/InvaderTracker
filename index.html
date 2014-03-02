@@ -18,6 +18,7 @@
         #info {
             position: absolute;
             top: 160px;
+            color: rgba(255,255,255,0.5);
             /* width: 100%; */
             padding: 0 10px;
             text-align: left;
@@ -41,15 +42,19 @@
             color: #0080ff;
         }
 
+        img {
+            border: none;
+        }
+
     </style>
 </head>
 <body>
     <div id="info"></div>
     <div id="container"></div>
     <div id="about">
-        <img src="./img/logo.jpg" />
+        <a href="http://artsat.jp/" target="_blank"><img src="./img/logo.jpg" /></a>
         <h1>ARTSAT1: INVADER - realtime tracker α</h1>
-        <p><a href='https://github.com/tado/InvaderTracker'>&gt; about this page</a></p>
+        <p><a href='https://github.com/tado/InvaderTracker' target="_blank">&gt; about this page</a></p>
     </div>
 
     <script src="js/jquery-2.1.0.min.js"></script>
@@ -163,9 +168,7 @@
             geo = satellite.position.geographic(time);
 
             rect = {x:0, y:0, z:0};
-            rect.x = (geo.altitude + radius) * Math.cos(Math.PI * geo.longitude / 180) * Math.cos(Math.PI * geo.latitude / 180);
-            rect.y = (geo.altitude + radius) * Math.sin(Math.PI * geo.longitude / 180) * Math.cos(Math.PI * geo.latitude / 180);
-            rect.z = (geo.altitude + radius) * Math.sin(Math.PI * geo.latitude / 180);
+            rect = addPoint(geo.latitude, geo.longitude, geo.altitude);
 
             satellite_geometry = new THREE.SphereGeometry(100,12,12);
             satellite_material = new THREE.MeshBasicMaterial({color: 0xff0000});
@@ -208,9 +211,9 @@
             $("div#info").append(
                 "<p>"
                 + dd
-                + "<br/>lat = " + geo.latitude.toFixed(8)
-                + "<br/>lon = " + geo.longitude.toFixed(8)
-                + "<br/>alt = " + geo.altitude.toFixed(8) + "</p>"
+                + "<br/>latitude = " + geo.latitude.toFixed(8)
+                + "<br/>longitude = " + geo.longitude.toFixed(8)
+                + "<br/>altitude = " + geo.altitude.toFixed(8) + "</p>"
                 );
 
             $("div#info").append("<p>"
