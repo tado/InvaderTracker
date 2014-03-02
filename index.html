@@ -7,7 +7,7 @@
     <style>
         body {
             color: #ffffff;
-            font-family:Monospace;
+            font-family:'Lucida Grande', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, sans-serif;
             font-size:13px;
             text-align:center;
             background-color: #000000;
@@ -17,11 +17,24 @@
 
         #info {
             position: absolute;
-            top: 0px;
-            width: 100%;
+            top: 160px;
+            /* width: 100%; */
             padding: 0 10px;
             text-align: left;
+            font-size: 8px;
+        }
+        #about {
+            position: absolute;
+            top: 0px;
+            /* width: 100%;*/
+            padding: 20px 10px;
+            text-align: left;
             font-size: 10px;
+            line-height: 1.1;
+        }
+
+        #container{
+            /* margin-top: 20px;*/
         }
 
         a {
@@ -31,8 +44,13 @@
     </style>
 </head>
 <body>
-    <div id="container"></div>
     <div id="info"></div>
+    <div id="container"></div>
+    <div id="about">
+        <img src="./img/logo.jpg" />
+        <h1>ARTSAT1: INVADER - realtime tracker α</h1>
+        <p><a href='https://github.com/tado/InvaderTracker'>&gt; about this page</a></p>
+    </div>
 
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/three.min.js"></script>
@@ -120,7 +138,7 @@
 
             renderer = new THREE.CanvasRenderer();
             renderer.setClearColor( 0x000000 );
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setSize( window.innerWidth, window.innerHeight);
 
             controls = new THREE.OrbitControls( camera, renderer.domElement );
 
@@ -186,7 +204,7 @@
 
             /* show log */
             $("div#info").empty();
-            $("div#info").append("<h1>ARTSAT1: INVADER - realtime tracker α</h1>");
+            /* $("div#info").append("<h1>ARTSAT1: INVADER - realtime tracker α</h1>");*/
             $("div#info").append(
                 "<p>"
                 + dd
@@ -200,8 +218,6 @@
                 + tle.first_line + "<br/>"
                 + tle.second_line
                 + "</p>");
-
-            $("div#info").append("<p><a href='readme.html'>about this page</a></p>");
 
             satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
             elapsed += 1000.0 * 10.0;
