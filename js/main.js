@@ -20,6 +20,7 @@ var radius = 6371;
 var loadedTle = new Array(100);
 var tmpTle;
 var orbitLine;
+var pointMesh = new Array(100);
 
 loadData();
 
@@ -54,6 +55,7 @@ function loadData(){
 function drawOrbit(){
     var current = new Date();
 
+    /* draw orbit line */
     var orbit = new THREE.Geometry();
     var step = 1;
     for (var i = 0; i < 60 * 6 / step; i++) {
@@ -61,12 +63,43 @@ function drawOrbit(){
         geo = satellite.position.geographic(time);
         var pos = {x:0, y:0, z:0};
         pos = addPoint(geo.latitude, geo.longitude, geo.altitude);
-        orbit.vertices.push( new THREE.Vertex( new THREE.Vector3(pos.x, pos.y, pos.z)));
+        orbit.vertices.push(new THREE.Vector3(pos.x, pos.y, pos.z));
+
+        /*
+        var pointCount = 0;
+        if(i % 3 == 0){
+            var canvas = document.createElement('canvas');
+            canvas.width = 500;
+            canvas.height = 20;
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'red';
+            ctx.font = "12px sans-serif";
+            ctx.textAlign = 'left';
+            ctx.fillText(current.toString(), 0, 0);
+
+            var textTexture = new THREE.Texture(canvas);
+
+            var textGeometry = new THREE.PlaneGeometry(2, 1);
+            var textMaterial = new THREE.MeshBasicMaterial({map: textTexture, overdraw: true});
+            var textMesh = new THREE.Mesh(textGeometry, textMaterial);
+            textMesh.position = {x:pos.x, y:pos.y, z:pos.z};
+            group.add(textMesh);
+            
+            var geometry = new THREE.SphereGeometry(50, 2, 2);
+            var material = new THREE.MeshBasicMaterial({color: 0xff0000});
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position = {x:pos.x, y:pos.y, z:pos.z};
+            pointMesh[pointCount] = mesh;
+            group.add(pointMesh[pointCount]);
+            pointCount++;
+        }
+        */
+
         current.setMinutes(current.getMinutes() + step);
     }
 
-    orbitLine = new THREE.Line(orbit, new THREE.LineBasicMaterial({color: 0xcc0000}));
-    scene.add(orbitLine);  
+    orbitLine = new THREE.Line(orbit, new THREE.LineBasicMaterial({color: 0xff0000,  opacity:0.6}));
+    group.add(orbitLine);  
 }
 
 function init() {
@@ -117,8 +150,8 @@ function init() {
     rect = {x:0, y:0, z:0};
     rect = addPoint(geo.latitude, geo.longitude, geo.altitude);
 
-    satellite_geometry = new THREE.SphereGeometry(100, 8, 8);
-    satellite_material = new THREE.MeshBasicMaterial({color: 0xff0000});
+    satellite_geometry = new THREE.SphereGeometry(120, 12, 12);
+    satellite_material = new THREE.MeshBasicMaterial({color: 0xff0000, overdraw: true});
     satellite_mesh = new THREE.Mesh(satellite_geometry, satellite_material);
     satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
     group.add(satellite_mesh);
@@ -147,7 +180,7 @@ function animate() {
 
     /* draw orbit (every 10 sec) */
     if(dd.getSeconds() % 10 == 0){
-        scene.remove(orbitLine);
+        group.remove(orbitLine);
         drawOrbit();
     }
 
