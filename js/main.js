@@ -85,7 +85,7 @@ function drawOrbit(){
             textMesh.position = {x:pos.x, y:pos.y, z:pos.z};
             group.add(textMesh);
             
-            var geometry = new THREE.SphereGeometry(50, 2, 2);
+            var geometry = new THREE.SphereGeometry(20, 4, 4);
             var material = new THREE.MeshBasicMaterial({color: 0xff0000});
             var mesh = new THREE.Mesh(geometry, material);
             mesh.position = {x:pos.x, y:pos.y, z:pos.z};
@@ -94,11 +94,11 @@ function drawOrbit(){
             pointCount++;
         }
         */
-
+        
         current.setMinutes(current.getMinutes() + step);
     }
 
-    orbitLine = new THREE.Line(orbit, new THREE.LineBasicMaterial({color: 0xff0000,  opacity:0.6}));
+    orbitLine = new THREE.Line(orbit, new THREE.LineBasicMaterial({color: 0xcc0000}));
     group.add(orbitLine);  
 }
 
@@ -122,7 +122,7 @@ function init() {
     } );
 
     /* renderer */
-    renderer = new THREE.CanvasRenderer();
+    renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setClearColor( 0x000000 );
     renderer.setSize( window.innerWidth, window.innerHeight);
     container.appendChild( renderer.domElement );
@@ -179,9 +179,10 @@ function animate() {
     satellite_mesh.position = {x:rect.x, y:rect.y, z:rect.z};
 
     /* draw orbit (every 10 sec) */
-    if(dd.getSeconds() % 10 == 0){
+    if(dd.getSeconds() % 1 == 0){
         group.remove(orbitLine);
         drawOrbit();
+        
     }
 
     /* show log */
