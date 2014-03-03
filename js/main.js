@@ -72,7 +72,7 @@ function drawOrbit(){
 function init() {
     /* scene */
     container = document.getElementById( 'container' );
-    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 20000 );
+    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 50000 );
     camera.position.z = -18000;
     scene = new THREE.Scene();
     group = new THREE.Object3D();
