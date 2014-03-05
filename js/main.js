@@ -35,10 +35,10 @@ function loadData(){
         success : function(data){
             loadedTle = data.split("\n");
             for(var i = 0; i < loadedTle.length; i++){
-                var myRe = /^........./;
+                var myRe = /^......./;
                 tmpTle = myRe.exec(loadedTle[i]);
 
-                if(tmpTle[0] === "2014-009F"){
+                if(tmpTle[0] === "INVADER"){
                     tle.name = loadedTle[i];
                     tle.first_line = loadedTle[i + 1];
                     tle.second_line = loadedTle[i + 2];
