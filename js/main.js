@@ -29,8 +29,8 @@ function loadData(){
 
     /* load TLE data from local textfile */
     jQuery.ajax({
-        url : "data/tle-new.txt",
-        /* url : "http://www.celestrak.com/NORAD/elements/tle-new.txt", */
+        url : "data/cubesat.txt",
+        /* url : "http://www.celestrak.com/NORAD/elements/cubesat.txt", */
         type : "get",
         success : function(data){
             loadedTle = data.split("\n");
