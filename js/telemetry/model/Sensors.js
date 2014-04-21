@@ -5,9 +5,10 @@
 
 var Sensors = Backbone.Collection.extend({
   acquisition_time: moment().format('X'),
-  subtractHour:     240,
+  subtractHour:     280,
   model:            Sensor,
   url:              'http://api.artsat.jp/invader/sensor_data_range.js',
+  comparator:       'time',
   begin: function() {
     var begin = moment().subtract(this.subtractHour, "hours").format('X');
     return begin;
