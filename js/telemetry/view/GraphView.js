@@ -8,69 +8,113 @@ var GraphView = Backbone.View.extend({
     graphSvg: undefined,
     tagName: 'svg',
   },
-  width:  900,
-  height: 250,
-  graphPath: undefined,
-  line: undefined,
+  width:      960,
+  height:     250,
+  marginX:    45,
+  marginY:    45,
+  graphPath:  undefined,
+  line:       undefined,
   initialize: function() {
-    this.graphSvg = d3.select("#graphView").append("svg:svg").attr("width", '1000px').attr("height", '980px');
+    this.graphSvg = d3.select("#graphView") 
+      .append("svg:svg")
+      .attr("width", this.width+ this.marginX)
+      .attr("height", this.height + this.marginY);
   },
   scaleY: function(arr) {
     var scale = d3.scale.linear()
         .domain([d3.min(arr), d3.max(arr)])
-        .range([0, this.height - 5]);
+        .range([this.height - 5, 0]);
     return scale;
   },
   scaleX: function(arr) {
-    var scale = d3.scale.linear()
-        .domain([0, arr.length])
-        .range([0, this.width]);
+    var scale = d3.time.scale()
+        .domain([new Date(d3.min(arr) * 1000.0), new Date(d3.max(arr) * 1000.0)])
+        .range([0, this.width - 5]);
     return scale;
   },
   render: function() {
     var self = this;
     if (0 < this.collection.length && this.collection != null) {
-      var dataArray = self.collection.pluck('alt');
-
-      var scaleX = self.scaleX(dataArray);
+      var timeArray = self.collection.pluck('time');
+      var dataArray = self.collection.pluck('scpx');
+      
+      var scaleX = self.scaleX(timeArray);
       var scaleY = self.scaleY(dataArray);
 
       self.line = d3.svg.line()
-        .x(function(d,i) { return scaleX(i) })
-        .y(function(d,i) { return self.height - scaleY(d);})
-        .interpolate("monotone")//点の繋ぎ方の指定
+        .x(function(d, i) {return scaleX(new Date(timeArray[i]*1000)) + self.marginX})
+        .y(function(d, i) {return scaleY(d);})
+        .interpolate("liner")//点の繋ぎ方の指定
 
       self.graphPath = self.graphSvg.append("path")
         .attr("d", self.line(dataArray))
         .attr("stroke", "white")
         .attr("stroke-width", 1)
         .attr("fill", "none");
+    
+      //axis-scale-X
+      self.graphSvg.append("g")
+        .attr("class", "xAxis")
+        .attr("transform", "translate(" + self.marginX + "," + self.height+ ")")
+        .attr("stroke", "white")
+        .attr("fill", "none")
+        .call(d3.svg.axis()
+          .scale(self.scaleX(dataArray))
+          .ticks(5)
+          .tickFormat(d3.time.format("%M/%d %H:%m %p"))
+          //.tickSubdivide(true)
+          .orient("bottom")
+        );
+
+      //axis-scale-Y
+      self.graphSvg.append("g")
+        .attr("class", "yAxis")
+        .attr("transform", "translate(" + self.marginX + " ,5)")
+        .attr("stroke", "white")
+        .attr("fill", "none")
+        .call(d3.svg.axis()
+          .scale(self.scaleY(dataArray))
+          .ticks(5)
+          //.tickSubdivide(true)
+          .orient("left")
+        );
     }
 
     $("#graphView").on("click", function() {
       var data = ["bv","bv","gx","gy","gz","mx","my","mz","scpx","scpy","scpz"];
       var index = Math.floor((Math.random()*10));
-      console.log("clicked",index);
+      
       self.transformDataTo(data[index]);
     });
   },
   transformDataTo: function(type) {
     var self = this;
-    
+    var timeArray = self.collection.pluck('time');
     var dataArray = self.collection.pluck(type);
 
-    var scaleX = self.scaleX(dataArray);
+    var scaleX = self.scaleX(timeArray);
     var scaleY = self.scaleY(dataArray);
 
     var newline = d3.svg.line()
-        .x(function(d,i) { return scaleX(i) })
-        .y(function(d,i) { return self.height - scaleY(d);})
-        .interpolate("monotone")//点の繋ぎ方の指定
+        .x(function(d, i) {return scaleX(new Date(timeArray[i] * 1000.0)) + self.marginX})
+        .y(function(d, i) {return scaleY(d);})
+        .interpolate("liner")//点の繋ぎ方の指定
 
-    self.graphPath
+    var targetAxisY = self.graphPath
       .transition()
-      .duration(300)
-      .attr("d", newline(dataArray))
+      .duration(500);
+      
+      targetAxisY
+        .attr("d", newline(dataArray));
+
+    d3.select(".yAxis")
+    .call(d3.svg.axis()
+      .scale(self.scaleY(dataArray))
+          .ticks(5)
+          .tickSubdivide(true)
+          .orient("left")
+    );
+
   },
   isNumber: function(x) { 
     if (typeof(x) != 'number' && typeof(x) != 'string') {
