@@ -43,6 +43,16 @@
         img {
             border: none;
         }
+        #graphView {
+            position: absolute;;
+            margin-left: 20px;
+            margin-bottom: 10px;
+            bottom: 0px;
+            height:300px;
+        }
+        #graphView p {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -52,7 +62,9 @@
         <a href="http://artsat.jp/" target="_blank"><img src="./img/logo.jpg" /></a>
         <h1>ARTSAT1: INVADER - realtime tracker α</h1>
         <p><a href='https://github.com/tado/InvaderTracker' target="_blank">&gt; about this page</a></p>
-        <div id="graphView"></div>
+    </div>
+    <div id="graphView">
+        <p>telemetry data:</p>
     </div>
 
     <script src="js/jquery-2.1.0.min.js"></script>
