@@ -158,6 +158,8 @@ function init() {
 
     /* draw orbit */
     drawOrbit();
+
+    drawGraphView();
 }
 
 function onWindowResize() {
@@ -223,3 +225,20 @@ function addPoint(lat, lng, alt) {
 
     return pos;
 }
+
+function drawGraphView() {
+    var sensors = new Sensors();
+    var graphView = new GraphView({
+        collection: sensors
+    });
+    sensors.fetch({
+        dataType : 'jsonp',
+        success: function(collection, res, options) {
+            graphView.render();
+        },
+        error: function(e) {
+            console.log("error-- ", e);
+        }
+    })
+}
+
