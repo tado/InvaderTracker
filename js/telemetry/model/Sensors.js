@@ -4,7 +4,7 @@
 */
 
 var Sensors = Backbone.Collection.extend({
-  acquisition_time: moment().format('X'),
+  acquisitionTime: moment().format('X'),
   subtractHour:     280,
   model:            Sensor,
   url:              'http://api.artsat.jp/invader/sensor_data_range.js',
@@ -14,7 +14,7 @@ var Sensors = Backbone.Collection.extend({
     return begin;
   },
   end: function() {
-    var end = this.acquisition_time;
+    var end = this.acquisitionTime;
     return end;
   },
   initialize: function() {
@@ -23,7 +23,7 @@ var Sensors = Backbone.Collection.extend({
   parse: function(resp) {
     if (resp.error) {
         console.log (resp.error.message);
-    }
+    };
     return resp.results;
   }
 });

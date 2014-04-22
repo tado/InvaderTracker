@@ -15,6 +15,7 @@ var GraphView = Backbone.View.extend({
   graphPath:  undefined,
   line:       undefined,
   initialize: function() {
+    // append svg to DOM
     this.graphSvg = d3.select("#graphView") 
       .append("svg:svg")
       .attr("width", this.width+ this.marginX)
@@ -28,31 +29,35 @@ var GraphView = Backbone.View.extend({
   },
   scaleX: function(arr) {
     var scale = d3.time.scale()
-        .domain([new Date(d3.min(arr) * 1000.0), new Date(d3.max(arr) * 1000.0)])
+        .domain([new Date(d3.min(arr) * 1000.0), new Date(d3.max(arr) * 1000.0)]) // For UnixTime, multiply 1000
         .range([0, this.width - 5]);
     return scale;
   },
   render: function() {
     var self = this;
     if (0 < this.collection.length && this.collection != null) {
+      // declaration of dataset
       var timeArray = self.collection.pluck('time');
       var dataArray = self.collection.pluck('scpx');
       
+      // generate d3 scale object
       var scaleX = self.scaleX(timeArray);
       var scaleY = self.scaleY(dataArray);
 
+      // declaration of d3 line object
       self.line = d3.svg.line()
         .x(function(d, i) {return scaleX(new Date(timeArray[i]*1000)) + self.marginX})
         .y(function(d, i) {return scaleY(d);})
-        .interpolate("liner")//点の繋ぎ方の指定
+        .interpolate("liner");//点の繋ぎ方の指定
 
+      // generate path and append to svg
       self.graphPath = self.graphSvg.append("path")
         .attr("d", self.line(dataArray))
         .attr("stroke", "white")
         .attr("stroke-width", 1)
         .attr("fill", "none");
     
-      //axis-scale-X
+      // axis-scale X
       self.graphSvg.append("g")
         .attr("class", "xAxis")
         .attr("transform", "translate(" + self.marginX + "," + self.height+ ")")
@@ -66,7 +71,7 @@ var GraphView = Backbone.View.extend({
           .orient("bottom")
         );
 
-      //axis-scale-Y
+      // axis-scale Y
       self.graphSvg.append("g")
         .attr("class", "yAxis")
         .attr("transform", "translate(" + self.marginX + " ,5)")
@@ -78,8 +83,9 @@ var GraphView = Backbone.View.extend({
           //.tickSubdivide(true)
           .orient("left")
         );
-    }
+    };
 
+    // on click function
     $("#graphView").on("click", function() {
       var data = ["bv","bv","gx","gy","gz","mx","my","mz","scpx","scpy","scpz"];
       var index = Math.floor((Math.random()*10));
@@ -87,7 +93,7 @@ var GraphView = Backbone.View.extend({
       self.transformDataTo(data[index]);
     });
   },
-  transformDataTo: function(type) {
+  transformDataTo: function(type) { // rerender function
     var self = this;
     var timeArray = self.collection.pluck('time');
     var dataArray = self.collection.pluck(type);
@@ -98,15 +104,16 @@ var GraphView = Backbone.View.extend({
     var newline = d3.svg.line()
         .x(function(d, i) {return scaleX(new Date(timeArray[i] * 1000.0)) + self.marginX})
         .y(function(d, i) {return scaleY(d);})
-        .interpolate("liner")//点の繋ぎ方の指定
+        .interpolate("liner");//点の繋ぎ方の指定
 
     var targetAxisY = self.graphPath
       .transition()
       .duration(500);
       
-      targetAxisY
-        .attr("d", newline(dataArray));
+    targetAxisY
+      .attr("d", newline(dataArray));
 
+    // rerender axis-scale Y
     d3.select(".yAxis")
     .call(d3.svg.axis()
       .scale(self.scaleY(dataArray))
@@ -121,6 +128,6 @@ var GraphView = Backbone.View.extend({
         return false;
     } else {
         return (x == parseFloat(x) && isFinite(x));
-    }
+    };
   }
-})
+});
