@@ -84,14 +84,8 @@ var GraphView = Backbone.View.extend({
           .orient("left")
         );
     };
-
-    // on click function
-    $("#graphView").on("click", function() {
-      var data = ["bv","bv","gx","gy","gz","mx","my","mz","scpx","scpy","scpz"];
-      var index = Math.floor((Math.random()*10));
-      
-      self.transformDataTo(data[index]);
-    });
+    // set pulldown function
+    self.setDataSelectEvent();
   },
   transformDataTo: function(type) { // rerender function
     var self = this;
@@ -129,5 +123,13 @@ var GraphView = Backbone.View.extend({
     } else {
         return (x == parseFloat(x) && isFinite(x));
     };
+  },
+  setDataSelectEvent: function() {
+    var self = this;
+    $('.data-sellect').on('click', function (e) {
+      var sensorName = e.target.id;
+      self.transformDataTo(sensorName);
+      $("#sensor-name").text("telemetry data:"  + sensorName);
+    });
   }
 });
