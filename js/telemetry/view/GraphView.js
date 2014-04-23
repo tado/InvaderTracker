@@ -61,26 +61,28 @@ var GraphView = Backbone.View.extend({
       self.graphSvg.append("g")
         .attr("class", "xAxis")
         .attr("transform", "translate(" + self.marginX + "," + self.height+ ")")
-        .attr("stroke", "white")
+        .attr("stroke", "gray")
         .attr("fill", "none")
         .call(d3.svg.axis()
           .scale(self.scaleX(timeArray))
           .ticks(6)
           .tickFormat(d3.time.format("%m/%d %H:%M"))
-          //.tickSubdivide(true)
+          .tickSubdivide(3)
+          .tickSize(-self.height+5)
           .orient("bottom")
         );
 
       // axis-scale Y
       self.graphSvg.append("g")
         .attr("class", "yAxis")
-        .attr("transform", "translate(" + self.marginX + " ,5)")
-        .attr("stroke", "white")
+        .attr("transform", "translate(" + self.marginX + " ,0)")
+        .attr("stroke", "gray")
         .attr("fill", "none")
         .call(d3.svg.axis()
           .scale(self.scaleY(dataArray))
           .ticks(5)
-          //.tickSubdivide(true)
+          .tickSubdivide(3)
+          .tickSize(-self.width+5)
           .orient("left")
         );
     };
@@ -112,10 +114,13 @@ var GraphView = Backbone.View.extend({
 
     // rerender axis-scale Y
     d3.select(".yAxis")
+    .transition()
+    .duration(500)
     .call(d3.svg.axis()
       .scale(self.scaleY(dataArray))
           .ticks(5)
           .tickSubdivide(true)
+          .tickSize(-self.width+5)
           .orient("left")
     );
 
