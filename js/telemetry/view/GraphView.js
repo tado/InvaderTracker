@@ -67,7 +67,6 @@ var GraphView = Backbone.View.extend({
           .scale(self.scaleX(timeArray))
           .ticks(6)
           .tickFormat(d3.time.format("%m/%d %H:%M"))
-          .tickSubdivide(3)
           .tickSize(-self.height+5)
           .orient("bottom")
         );
@@ -81,7 +80,6 @@ var GraphView = Backbone.View.extend({
         .call(d3.svg.axis()
           .scale(self.scaleY(dataArray))
           .ticks(5)
-          .tickSubdivide(3)
           .tickSize(-self.width+5)
           .orient("left")
         );
