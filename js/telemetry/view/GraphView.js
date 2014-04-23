@@ -64,9 +64,9 @@ var GraphView = Backbone.View.extend({
         .attr("stroke", "white")
         .attr("fill", "none")
         .call(d3.svg.axis()
-          .scale(self.scaleX(dataArray))
-          .ticks(5)
-          .tickFormat(d3.time.format("%M/%d %H:%m %p"))
+          .scale(self.scaleX(timeArray))
+          .ticks(6)
+          .tickFormat(d3.time.format("%m/%d %H:%M"))
           //.tickSubdivide(true)
           .orient("bottom")
         );
@@ -96,7 +96,10 @@ var GraphView = Backbone.View.extend({
     var scaleY = self.scaleY(dataArray);
 
     var newline = d3.svg.line()
-        .x(function(d, i) {return scaleX(new Date(timeArray[i] * 1000.0)) + self.marginX})
+        .x(function(d, i) {
+          var date = timeArray[i];
+          return scaleX(new Date(timeArray[i] * 1000.0)) + self.marginX}
+          )
         .y(function(d, i) {return scaleY(d);})
         .interpolate("liner");//点の繋ぎ方の指定
 
