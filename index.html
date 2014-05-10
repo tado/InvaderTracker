@@ -17,7 +17,8 @@
         }
         #info {
             position: absolute;
-            top: 160px;
+            top: 70px;
+            left: 230px;
             color: rgba(255,255,255,0.5);
             font-family: "Courier New", Courier, monospace;
             /* width: 100%; */
@@ -57,10 +58,14 @@
         #graphView .dropdown ul{
           top: -280px;
         }
+        #overlay {
+          pointer-events: none;
+        }
     </style>
     <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <div id ="overlay"></div>
     <div id="info"></div>
     <div id="container"></div>
     <div id="about">
@@ -101,10 +106,12 @@
 
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/three.min.js"></script>
+    <script src="js/vendor/CSS2DRenderer.js"></script>
     <script src="js/OrbitControls.js"></script>
     <script src="js/stats.min.js"></script>
     <script src="js/core.js"></script>
     <script src="js/satellite.js"></script>
+    <script src="js/OverlayView.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="js/vendor/bootstrap-dropdown.js"></script>
     <script src="js/vendor/moment.min.js"></script>
