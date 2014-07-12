@@ -17,7 +17,8 @@
         }
         #info {
             position: absolute;
-            top: 160px;
+            top: 70px;
+            left: 230px;
             color: rgba(255,255,255,0.5);
             font-family: "Courier New", Courier, monospace;
             /* width: 100%; */
@@ -43,9 +44,28 @@
         img {
             border: none;
         }
+        #graphView {
+            position: absolute;
+            margin-left: 20px;
+            margin-bottom: 25px;
+            bottom: 0px;
+            height:380px;
+            text-align: left;
+        }
+        #graphView .dropdown{
+            padding-bottom: 20px;
+        }
+        #graphView .dropdown ul{
+          top: -280px;
+        }
+        #overlay {
+          pointer-events: none;
+        }
     </style>
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <div id ="overlay"></div>
     <div id="info"></div>
     <div id="container"></div>
     <div id="about">
@@ -53,12 +73,54 @@
         <h1>ARTSAT1: INVADER - realtime tracker α</h1>
         <p><a href='https://github.com/tado/InvaderTracker' target="_blank">&gt; about this page</a></p>
     </div>
+    <div id="graphView">
+        <h3 id="sensor-name">telemetry data: scpx</h3>
+        <div class="dropdown">
+            <a class="dropdown-toggle btn btn-primary" data-toggle="dropdown" href="#">Data Type</a>
+            <ul class="dropdown-menu">
+            　<li><a class="data-sellect" id="alt" tabindex="0" href="#">alt</a></li>
+              <li><a class="data-sellect" id="bt" tabindex="1" href="#">bt</a></li>
+              <li><a class="data-sellect" id="bv" tabindex="2" href="#">bv</a></li>
+              <li><a class="data-sellect" id="gx" tabindex="3" href="#">gx</a></li>
+              <li><a class="data-sellect" id="gy" tabindex="4" href="#">gy</a></li>
+              <li><a class="data-sellect" id="gz" tabindex="5" href="#">gz</a></li>
+              <li><a class="data-sellect" id="mx" tabindex="6" href="#">mx</a></li>
+              <li><a class="data-sellect" id="my" tabindex="7" href="#">my</a></li>
+              <li><a class="data-sellect" id="mz" tabindex="8" href="#">mz</a></li>
+              <li><a class="data-sellect" id="sca" tabindex="9" href="#">sca</a></li>
+              <li><a class="data-sellect" id="scmx" tabindex="10" href="#">scmx</a></li>
+              <li><a class="data-sellect" id="scmy" tabindex="11" href="#">scmy</a></li>
+              <li><a class="data-sellect" id="scmz" tabindex="12" href="#">scmz</a></li>
+              <li><a class="data-sellect" id="scpx" tabindex="13" href="#">scpx</a></li>
+              <li><a class="data-sellect" id="scpy" tabindex="14" href="#">scpy</a></li>
+              <li><a class="data-sellect" id="scpz" tabindex="15" href="#">scpz</a></li>
+              <li><a class="data-sellect" id="stmx" tabindex="16" href="#">stmx</a></li>
+              <li><a class="data-sellect" id="stmy" tabindex="17" href="#">stmy</a></li>
+              <li><a class="data-sellect" id="stmz" tabindex="18" href="#">stmz</a></li>
+              <li><a class="data-sellect" id="stpx" tabindex="19" href="#">stpx</a></li>
+              <li><a class="data-sellect" id="stpy" tabindex="20" href="#">stpy</a></li>
+              <li><a class="data-sellect" id="stpz" tabindex="21" href="#">stpz</a></li>
+            </ul>
+          </div>
+    </div>
+
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/three.min.js"></script>
+    <script src="js/vendor/CSS2DRenderer.js"></script>
     <script src="js/OrbitControls.js"></script>
     <script src="js/stats.min.js"></script>
     <script src="js/core.js"></script>
     <script src="js/satellite.js"></script>
+    <script src="js/OverlayView.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/bootstrap-dropdown.js"></script>
+    <script src="js/vendor/moment.min.js"></script>
+    <script src="js/vendor/underscore-min.js"></script>
+    <script src="js/vendor/backbone-min.js"></script>
+    <script src="js/telemetry/model/Sensor.js"></script>
+    <script src="js/telemetry/model/Sensors.js"></script>
+    <script src="js/vendor/d3.min.js"></script>
+    <script src="js/telemetry/view/GraphView.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

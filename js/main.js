@@ -21,6 +21,8 @@ var loadedTle = new Array(100);
 var tmpTle;
 var orbitLine;
 var pointMesh = new Array(100);
+var projector;
+var overlayView;
 
 loadData();
 
@@ -109,6 +111,8 @@ function init() {
     camera.position.z = -18000;
     scene = new THREE.Scene();
     group = new THREE.Object3D();
+    projector = new THREE.Projector(window.innerWidth, window.innerHeight);
+    overlayView = new OverlayView(window.innerWidth, window.innerHeight);
     scene.add( group );
 
     /* earth */
@@ -158,6 +162,8 @@ function init() {
 
     /* draw orbit */
     drawOrbit();
+
+    drawGraphView();
 }
 
 function onWindowResize() {
@@ -166,6 +172,7 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
+    overlayView.setSize( window.innerWidth, window.innerHeight );
 }
 
 function animate() {
@@ -201,6 +208,12 @@ function animate() {
         + tle.second_line
         + "</p>");
 
+    /* set projected position to CSS2DRenderer */
+    var target = satellite_mesh;
+    var projectedPosition = getProjection(target);
+    overlayView.setBillboardPosition(projectedPosition);
+    overlayView.update();
+
     /* animate */
     requestAnimationFrame(animate);
     render();
@@ -223,3 +236,27 @@ function addPoint(lat, lng, alt) {
 
     return pos;
 }
+
+function getProjection(target) {
+  var vector = projector.projectVector( new THREE.Vector3(target.position.x, target.position.y, target.position.z), camera );
+  vector.x = vector.x * window.innerWidth * 0.5;
+  vector.y = -( vector.y * window.innerHeight * 0.5 );
+  return vector;
+}
+
+function drawGraphView() {
+    var sensors = new Sensors();
+    var graphView = new GraphView({
+        collection: sensors
+    });
+    sensors.fetch({
+        dataType : 'jsonp',
+        success: function(collection, res, options) {
+            graphView.render();
+        },
+        error: function(e) {
+            console.log("error-- ", e);
+        }
+    })
+}
+
