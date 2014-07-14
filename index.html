@@ -17,13 +17,15 @@
         }
         #info {
             position: absolute;
-            top: 160px;
+            top: 60px;
+            left: 120px;
             color: rgba(255,255,255,0.5);
             font-family: "Courier New", Courier, monospace;
             /* width: 100%; */
             padding: 0 10px;
             text-align: left;
-            font-size: 8px;
+            font-size: 10px;
+            background-color: rgba(0,0,0,0.5);
         }
         #about {
             position: absolute;
@@ -34,6 +36,11 @@
             font-size: 10px;
             line-height: 1.1;
         }
+        #tle {
+            color:rgba(255,255,255,0.5);
+            font-family: "Courier New", Courier, monospace;
+            font-size: 10px;
+        }
         #container{
             /* margin-top: 20px;*/
         }
@@ -43,19 +50,26 @@
         img {
             border: none;
         }
+        #overlay {
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+    <div id ="overlay"></div>
     <div id="info"></div>
     <div id="container"></div>
     <div id="about">
         <a href="http://artsat.jp/" target="_blank"><img src="./img/logo.jpg" /></a>
         <h1>ARTSAT1: INVADER - realtime tracker α</h1>
         <p><a href='https://github.com/tado/InvaderTracker' target="_blank">&gt; about this page</a></p>
+        <div id="tle"></div>
     </div>
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/three.min.js"></script>
     <script src="js/OrbitControls.js"></script>
+    <script src="js/CSS2DRenderer.js"></script>
+    <script src="js/OverlayView.js"></script>
     <script src="js/stats.min.js"></script>
     <script src="js/core.js"></script>
     <script src="js/satellite.js"></script>
