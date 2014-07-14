@@ -65,38 +65,7 @@ function drawOrbit(){
         geo = satellite.position.geographic(time);
         var pos = {x:0, y:0, z:0};
         pos = addPoint(geo.latitude, geo.longitude, geo.altitude);
-        orbit.vertices.push(new THREE.Vector3(pos.x, pos.y, pos.z));
-
-        /*
-        var pointCount = 0;
-        if(i % 3 == 0){
-            var canvas = document.createElement('canvas');
-            canvas.width = 500;
-            canvas.height = 20;
-            var ctx = canvas.getContext('2d');
-            ctx.fillStyle = 'red';
-            ctx.font = "12px sans-serif";
-            ctx.textAlign = 'left';
-            ctx.fillText(current.toString(), 0, 0);
-
-            var textTexture = new THREE.Texture(canvas);
-
-            var textGeometry = new THREE.PlaneGeometry(2, 1);
-            var textMaterial = new THREE.MeshBasicMaterial({map: textTexture, overdraw: true});
-            var textMesh = new THREE.Mesh(textGeometry, textMaterial);
-            textMesh.position = {x:pos.x, y:pos.y, z:pos.z};
-            group.add(textMesh);
-            
-            var geometry = new THREE.SphereGeometry(20, 4, 4);
-            var material = new THREE.MeshBasicMaterial({color: 0xff0000});
-            var mesh = new THREE.Mesh(geometry, material);
-            mesh.position = {x:pos.x, y:pos.y, z:pos.z};
-            pointMesh[pointCount] = mesh;
-            group.add(pointMesh[pointCount]);
-            pointCount++;
-        }
-        */
-        
+        orbit.vertices.push(new THREE.Vector3(pos.x, pos.y, pos.z));       
         current.setMinutes(current.getMinutes() + step);
     }
 

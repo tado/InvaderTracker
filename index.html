@@ -42,6 +42,10 @@
             font-size: 10px;
         }
         #graph {
+            position: absolute;
+            top:0;
+            left:0;
+            background-color: rgba(0,0,0,0.3);
             color:rgba(255,255,255,0.5);
             font-family: "Courier New", Courier, monospace;
             font-size: 10px;
@@ -58,19 +62,48 @@
         #overlay {
             pointer-events: none;
         }
+
+        /* for D3.js graph */
+        .axis path,
+        .axis line,
+        .axis text {
+            fill: none;
+            stroke: rgba(255,255,255,0.5);
+            shape-rendering: crispEdges;
+        }
+        .x.axis path {
+            display: none;
+        }
+        .line {
+            fill: none;
+            stroke: rgba(255,255,255,0.25);
+            stroke-width: 1.5px;
+        }
+        .dot0 {
+            stroke: none;
+            fill: rgba(255,31,31,0.25);
+        }
+        .dot1 {
+            stroke: none;
+            fill: rgba(255,31,255,0.25);
+        }
+        .dot2 {
+            stroke: none;
+            fill: rgba(31,31,255,0.25);
+        }
     </style>
 </head>
 <body>
     <div id ="overlay"></div>
     <div id="info"></div>
-    <div id="container"></div>
+    <div id="graph"></div>
     <div id="about">
         <a href="http://artsat.jp/" target="_blank"><img src="./img/logo.jpg" /></a>
         <h1>ARTSAT1: INVADER - realtime tracker α</h1>
         <p><a href='https://github.com/tado/InvaderTracker' target="_blank">&gt; about this page</a></p>
         <div id="tle"></div>
     </div>
-    <div id="graph"></div>
+    <div id="container"></div>
     <script src="js/jquery-2.1.0.min.js"></script>
     <script src="js/three.min.js"></script>
     <script src="js/OrbitControls.js"></script>
@@ -82,7 +115,7 @@
     <script src="js/moment.min.js"></script>
     <script src="js/core.js"></script>
     <script src="js/satellite.js"></script>
-    <script src="js/graph.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/graph.js"></script>
 </body>
 </html>
