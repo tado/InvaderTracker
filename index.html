@@ -45,8 +45,8 @@
             position: absolute;
             top:0;
             left:0;
-            background-color: rgba(0,0,0,0.3);
-            color:rgba(255,255,255,0.5);
+            background-color: rgba(0,0,0,0.5);
+            /* color:rgba(255,255,255,0.5);*/
             font-family: "Courier New", Courier, monospace;
             font-size: 10px;
         }
@@ -68,11 +68,8 @@
         .axis line,
         .axis text {
             fill: none;
-            stroke: rgba(255,255,255,0.5);
+            stroke: rgba(255,255,255,0.4);
             shape-rendering: crispEdges;
-        }
-        .x.axis path {
-            display: none;
         }
         .line {
             fill: none;
@@ -95,12 +92,14 @@
 </head>
 <body>
     <div id ="overlay"></div>
-    <div id="info"></div>
     <div id="graph"></div>
+    <div id="info"></div>
     <div id="about">
         <a href="http://artsat.jp/" target="_blank"><img src="./img/logo.jpg" /></a>
         <h1>ARTSAT1: INVADER - realtime tracker α</h1>
-        <p><a href='https://github.com/tado/InvaderTracker' target="_blank">&gt; about this page</a></p>
+        <p><a href='https://github.com/tado/InvaderTracker' target="_blank">&gt; about this page</a><br/>
+            <a href='javascript:showGraph()'> &gt; show graph</a>&nbsp;&nbsp;<a href='javascript:hideGraph()'> &gt; hide graph</a>
+        </p>
         <div id="tle"></div>
     </div>
     <div id="container"></div>

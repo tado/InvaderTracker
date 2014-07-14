@@ -131,6 +131,8 @@ function init() {
 
     /* draw orbit */
     drawOrbit();
+
+    $("div#graph").hide();
 }
 
 function onWindowResize() {
@@ -210,4 +212,14 @@ function getProjection(target) {
   vector.x = vector.x * window.innerWidth * 0.5;
   vector.y = -( vector.y * window.innerHeight * 0.5 );
   return vector;
+}
+
+function showGraph(){
+    $("div#graph").fadeIn();
+    $("div#overlay").fadeOut();
+}
+
+function hideGraph(){
+    $("div#graph").fadeOut();
+    $("div#overlay").fadeIn();
 }

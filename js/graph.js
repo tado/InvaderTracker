@@ -1,6 +1,6 @@
 
 
-var margin = {top: window.innerHeight/2.0, right: 20, bottom: 40, left: 40},
+var margin = {top:250, right: 20, bottom: 40, left: 40},
 width = window.innerWidth - margin.left - margin.right,
 height = window.innerHeight - margin.top - margin.bottom;
 
@@ -46,7 +46,7 @@ function artsat_invader_sensor_data_cb(data){
     .append("text")
     .attr("class", "label")
     .attr("x", width)
-    .attr("y", -6)
+    .attr("y", 20)
     .style("text-anchor", "end")
     .text("Time");
 
@@ -55,8 +55,8 @@ function artsat_invader_sensor_data_cb(data){
     .call(yAxis)
     .append("text")
     .attr("class", "label")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6)
+    //.attr("transform", "rotate(-90)")
+    .attr("y", -20)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
     .text("Value")
@@ -64,7 +64,6 @@ function artsat_invader_sensor_data_cb(data){
     svg.selectAll(".dot")
     .data(data.results)
     .enter().append("circle")
-    .attr("class", "dot0")
     .attr("r", 2)
     .attr("cx", function(d) { return x(d.time * 1000); })
     .attr("cy", function(d) { return y(d.sensors.sca); })
@@ -73,7 +72,6 @@ function artsat_invader_sensor_data_cb(data){
     svg.selectAll(".dot")
     .data(data.results)
     .enter().append("circle")
-    .attr("class", "dot1")
     .attr("r", 2)
     .attr("cx", function(d) { return x(d.time * 1000); })
     .attr("cy", function(d) { return y(d.sensors.scmx); })
@@ -82,7 +80,6 @@ function artsat_invader_sensor_data_cb(data){
     svg.selectAll(".dot")
     .data(data.results)
     .enter().append("circle")
-    .attr("class", "dot2")
     .attr("r", 2)
     .attr("cx", function(d) { return x(d.time * 1000); })
     .attr("cy", function(d) { return y(d.sensors.scpx); })
@@ -91,7 +88,6 @@ function artsat_invader_sensor_data_cb(data){
     svg.selectAll(".dot")
     .data(data.results)
     .enter().append("circle")
-    .attr("class", "dot1")
     .attr("r", 2)
     .attr("cx", function(d) { return x(d.time * 1000); })
     .attr("cy", function(d) { return y(d.sensors.scmy); })
@@ -100,7 +96,6 @@ function artsat_invader_sensor_data_cb(data){
     svg.selectAll(".dot")
     .data(data.results)
     .enter().append("circle")
-    .attr("class", "dot2")
     .attr("r", 2)
     .attr("cx", function(d) { return x(d.time * 1000); })
     .attr("cy", function(d) { return y(d.sensors.scpy); })
@@ -110,7 +105,6 @@ function artsat_invader_sensor_data_cb(data){
     svg.selectAll(".dot")
     .data(data.results)
     .enter().append("circle")
-    .attr("class", "dot1")
     .attr("r", 2)
     .attr("cx", function(d) { return x(d.time * 1000); })
     .attr("cy", function(d) { return y(d.sensors.scmz); })
@@ -119,12 +113,115 @@ function artsat_invader_sensor_data_cb(data){
     svg.selectAll(".dot")
     .data(data.results)
     .enter().append("circle")
-    .attr("class", "dot2")
     .attr("r", 2)
     .attr("cx", function(d) { return x(d.time * 1000); })
     .attr("cy", function(d) { return y(d.sensors.scpz); })
     .style("fill", function(d, i) { return color(6); })
     ;
+
+    /*
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.stpx); })
+    .style("fill", color(0))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.stmx); })
+    .style("fill", color(1))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.stpy); })
+    .style("fill", color(2))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.stmy); })
+    .style("fill", color(3))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.stpz); })
+    .style("fill", color(4))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.stmz); })
+    .style("fill", color(5))
+    ;
+    */
+    /*
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.mx); })
+    .style("fill", color(0))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.my); })
+    .style("fill", color(1))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.mz); })
+    .style("fill", color(2))
+    ;
+    */
+
+    /*
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.gx); })
+    .style("fill", color(0))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.gy); })
+    .style("fill", color(1))
+    ;
+    svg.selectAll(".dot")
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(d.sensors.gz); })
+    .style("fill", color(2))
+    ;
+    */
 }
 
 
