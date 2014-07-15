@@ -14,10 +14,17 @@
   <div id="about">
     <a href="http://artsat.jp/" target="_blank"><img src="./img/logo.jpg" /></a>
     <h1>ARTSAT1: INVADER - realtime tracker α</h1>
-    <p><a href='https://github.com/tado/InvaderTracker' target="_blank">&gt; about this page</a>
-      <br/><a href='javascript:showGraph()'> &gt; show graph</a>
-      &nbsp;&nbsp;<a href='javascript:hideGraph()'> &gt; hide graph</a>
-    </p>
+    <ul>
+      <li><a href='https://github.com/tado/InvaderTracker' target="_blank">このページについて</a></li>
+      <li><a href='javascript:showGraph(0)'>衛星高度</a></li>
+      <li><a href='javascript:showGraph(1)'>バッテリー容量</a></li>
+      <li><a href='javascript:showGraph(2)'>バッテリー温度</a></li>
+      <li><a href='javascript:showGraph(3)'>太陽電池発電量</a></li>
+      <li><a href='javascript:showGraph(4)'>太陽電池温度</a></li>
+      <li><a href='javascript:showGraph(5)'>回転速度</a></li>
+      <li><a href='javascript:showGraph(6)'>地磁気</a></li>
+      <li><a href='javascript:hideGraph()'>グラフを隠す</a></li>
+    </ul>
     <div id="tle"></div>
   </div>
   <div id="container"></div>
@@ -30,9 +37,9 @@
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="js/jsonp.js"></script>
   <script src="js/moment.min.js"></script>
+  <script src="js/graph.js"></script>
   <script src="js/core.js"></script>
   <script src="js/satellite.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/graph.js"></script>
 </body>
 </html>

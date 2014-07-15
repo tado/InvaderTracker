@@ -65,12 +65,12 @@ function drawOrbit(){
         geo = satellite.position.geographic(time);
         var pos = {x:0, y:0, z:0};
         pos = addPoint(geo.latitude, geo.longitude, geo.altitude);
-        orbit.vertices.push(new THREE.Vector3(pos.x, pos.y, pos.z));       
+        orbit.vertices.push(new THREE.Vector3(pos.x, pos.y, pos.z));
         current.setMinutes(current.getMinutes() + step);
     }
 
     orbitLine = new THREE.Line(orbit, new THREE.LineBasicMaterial({color: 0xcc0000}));
-    group.add(orbitLine);  
+    group.add(orbitLine);
 }
 
 function init() {
@@ -158,7 +158,7 @@ function animate() {
     if(dd.getSeconds() % 1 == 0){
         group.remove(orbitLine);
         drawOrbit();
-        
+
     }
 
     /* show log */
@@ -171,12 +171,14 @@ function animate() {
         + "<br/>longitude = " + geo.longitude.toFixed(8)
         + "<br/>altitude = " + geo.altitude.toFixed(8) + "</p>"
         );
+    /*
     $("div#tle").empty();
     $("div#tle").append("<p>"
         + tle.name + "<br/>"
         + tle.first_line + "<br/>"
         + tle.second_line
         + "</p>");
+    */
 
     /* set projected position to CSS2DRenderer */
     var target = satellite_mesh;
@@ -214,12 +216,14 @@ function getProjection(target) {
   return vector;
 }
 
-function showGraph(){
-    $("div#graph").fadeIn();
-    $("div#overlay").fadeOut();
+function showGraph(num){
+  selectGraph(num);
+  $("div#graph").show();
+  $("div#overlay").fadeOut();
 }
 
 function hideGraph(){
-    $("div#graph").fadeOut();
-    $("div#overlay").fadeIn();
+  removeGraph();
+  $("div#graph").hide();
+  $("div#overlay").fadeIn();
 }

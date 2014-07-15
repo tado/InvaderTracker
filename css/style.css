@@ -26,7 +26,10 @@ body {
     padding: 20px 10px;
     text-align: left;
     font-size: 10px;
-    line-height: 1.1;
+    line-height: 1.4;
+}
+#about ul{
+  padding-left:1em;
 }
 #tle {
     color:rgba(255,255,255,0.5);
