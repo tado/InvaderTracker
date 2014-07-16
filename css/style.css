@@ -1,85 +1,74 @@
 body {
-    color: #ffffff;
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:13px;
-    text-align:center;
-    background-color: #000000;
-    margin: 0px;
-    overflow: hidden;
+  color: #ffffff;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:13px;
+  text-align:center;
+  background-color: #000000;
+  margin: 0px;
+  overflow: hidden;
+  line-height: 1.75;
 }
 #info {
-    position: absolute;
-    top: 60px;
-    left: 120px;
-    color: rgba(255,255,255);
-    font-family: "Courier New", Courier, monospace;
-    padding: 0 10px;
-    text-align: left;
-    font-size: 10px;
-    /* background-color: rgba(0,0,0,0.5); */
-    text-shadow: 0px 0px 8px rgb(0, 0, 0);
+  position: absolute;
+  top: 60px;
+  left: 120px;
+  color: rgba(255,255,255);
+  padding: 0 10px;
+  text-align: left;
+  font-size: 9px;
+  font-family: "Menlo", "Courier New", Courier, monospace;  
+  text-shadow: 0px 1px 4px #000;
 }
 #about {
-    position: absolute;
-    top: 0px;
-    /* width: 100%;*/
-    padding: 20px 10px;
-    text-align: left;
-    font-size: 10px;
-    line-height: 1.4;
+  position: absolute;
+  top: 0px;
+  padding: 20px 10px;
+  text-align: left;
+  font-size: 10px;
 }
 #about ul{
   padding-left:1em;
 }
 #tle {
-    color:rgba(255,255,255,0.5);
-    font-family: "Courier New", Courier, monospace;
-    font-size: 10px;
+  color:rgba(255,255,255,0.5);
+  font-family: "Menlo", "Courier New", Courier, monospace;
+  font-size: 10px;
 }
 #graph {
-    position: absolute;
-    top:0;
-    left:0;
-    background-color: rgba(0,0,0,0.65);
-    /* color:rgba(255,255,255,0.5);*/
-    font-family: "Courier New", Courier, monospace;
-    font-size: 10px;
+  position: absolute;
+  top:0;
+  left:0;
+  background-color: rgba(0,0,0,0.65);
+  font-family: "Menlo", "Courier New", Courier, monospace;
+  font-size: 10px;
 }
 #container{
-    /* margin-top: 20px;*/
+  /* margin-top: 20px;*/
 }
 a {
-    color: #0080ff;
+  color: #fff;
+  text-decoration: underline;
 }
 img {
-    border: none;
+  border: none;
 }
 #overlay {
-    pointer-events: none;
+  pointer-events: none;
+  line-height: 1.2;
+  font-size: 6px;
+  color:rgba(255,255,255,0.85);
 }
 
 /* for D3.js graph */
 .axis path,
 .axis line,
 .axis text {
-    fill: none;
-    stroke: rgba(255,255,255,0.4);
-    shape-rendering: crispEdges;
+  fill: none;
+  stroke: rgba(255,255,255,0.5);
+  font-weight: 100;
 }
 .line {
-    fill: none;
-    stroke: rgba(255,255,255,0.25);
-    stroke-width: 1.5px;
-}
-.dot0 {
-    stroke: none;
-    fill: rgba(255,31,31,0.25);
-}
-.dot1 {
-    stroke: none;
-    fill: rgba(255,31,255,0.25);
-}
-.dot2 {
-    stroke: none;
-    fill: rgba(31,31,255,0.25);
+  fill: none;
+  stroke: rgba(255,255,255,0.5);
+  stroke-width: 1.5px;
 }
