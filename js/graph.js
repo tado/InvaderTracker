@@ -1,6 +1,6 @@
 /* Draw Telemetry Graph using D3.js */
 
-var margin = {top:170, right: 20, bottom: 40, left: 150};
+var margin = {top:170, right: 20, bottom: 60, left: 150};
 var width = window.innerWidth - margin.left - margin.right;
 var height = window.innerHeight - margin.top - margin.bottom;
 var x = d3.time.scale().range([0, width]);
@@ -25,6 +25,7 @@ var begin = moment().subtract("days",360).format('X');
 var end = moment().format('X');
 var url = "http://api.artsat.jp/invader/sensor_data_range.js";
 url += ("?begin=" + begin + "&end=" + end);
+
 d3.jsonp(url, function(cb){
 });
 
@@ -35,43 +36,43 @@ function artsat_invader_sensor_data_cb(callback_data){
 function selectGraph(num){
   d3.select("svg").remove();
   var svg = d3.select("#graph").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   x.domain(d3.extent(data.results, function(d) { return d.time * 1000;}));
   y.domain(d3.extent(data.results, function(d) { return eval("d.sensors." + sensorGroup[num][0])}));
 
   svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis)
-    .append("text")
-    .attr("class", "label")
-    .attr("x", width)
-    .attr("y", 20)
-    .style("text-anchor", "end")
-    .text("Time");
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis)
+  .append("text")
+  .attr("class", "label")
+  .attr("x", width)
+  .attr("y", 40)
+  .style("text-anchor", "end")
+  .text("Time");
 
   svg.append("g")
-    .attr("class", "y axis")
-    .call(yAxis)
-    .append("text")
-    .attr("class", "label")
-    .attr("y", -20)
-    .attr("dy", ".71em")
-    .style("text-anchor", "end")
-    .text("Value");
+  .attr("class", "y axis")
+  .call(yAxis)
+  .append("text")
+  .attr("class", "label")
+  .attr("y", -20)
+  .attr("dy", ".71em")
+  .style("text-anchor", "end")
+  .text("Value");
 
   for(var i = 0; i < sensorGroup[num].length; i++){
     svg.selectAll(".dot")
-      .data(data.results)
-      .enter().append("circle")
-      .attr("r", 2)
-      .attr("cx", function(d) { return x(d.time * 1000); })
-      .attr("cy", function(d) { return y(eval("d.sensors." + sensorGroup[num][i])); })
-      .style("fill", function(d) { return color(i); });
+    .data(data.results)
+    .enter().append("circle")
+    .attr("r", 2)
+    .attr("cx", function(d) { return x(d.time * 1000); })
+    .attr("cy", function(d) { return y(eval("d.sensors." + sensorGroup[num][i])); })
+    .style("fill", function(d) { return color(i); });
   }
 }
 
