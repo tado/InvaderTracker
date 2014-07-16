@@ -22,7 +22,7 @@ function artsat_invader_sensor_data_cb(callback_data){
   data = callback_data;
 }
 
-var margin = {top:170, right: 20, bottom: 40, left: 150};
+var margin = {top:200, right: 40, bottom: 40, left: 200};
 var width = window.innerWidth - margin.left - margin.right;
 var height = window.innerHeight - margin.top - margin.bottom;
 var x = d3.time.scale().range([0, width]);
