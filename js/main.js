@@ -172,6 +172,7 @@ function animate() {
   /*
     $("div#tle").empty();
     $("div#tle").append("<p>"
+<<<<<<< HEAD
     + tle.name + "<br/>"
     + tle.first_line + "<br/>"
     + tle.second_line
@@ -189,6 +190,25 @@ function animate() {
   render();
   stats.update();
   controls.update();
+=======
+        + tle.name + "<br/>"
+        + tle.first_line + "<br/>"
+        + tle.second_line
+        + "</p>");
+*/
+
+/* set projected position to CSS2DRenderer */
+var target = satellite_mesh;
+var projectedPosition = getProjection(target);
+overlayView.setBillboardPosition(projectedPosition);
+overlayView.update();
+
+/* animate */
+requestAnimationFrame(animate);
+render();
+stats.update();
+controls.update();
+>>>>>>> FETCH_HEAD
 }
 
 function render() {
@@ -222,6 +242,10 @@ function showGraph(num){
 
 function hideGraph(){
   removeGraph();
-  $("div#graph").hide();
+  $("div#graph").fadeout().hide();
   $("div#overlay").fadeIn();
 }
+
+$( "#graph" ).click(function() {
+  hideGraph();
+});
