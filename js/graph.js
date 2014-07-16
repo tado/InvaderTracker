@@ -25,8 +25,9 @@ var begin = moment().subtract("days",360).format('X');
 var end = moment().format('X');
 var url = "http://api.artsat.jp/invader/sensor_data_range.js";
 url += ("?begin=" + begin + "&end=" + end);
-d3.jsonp(url, function(cb){
-});
+
+/* Get telemetry data JSONP from Artsat API */
+d3.jsonp(url, function(cb){ });
 
 function artsat_invader_sensor_data_cb(callback_data){
   data = callback_data;
@@ -35,10 +36,10 @@ function artsat_invader_sensor_data_cb(callback_data){
 function selectGraph(num){
   d3.select("svg").remove();
   var svg = d3.select("#graph").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   x.domain(d3.extent(data.results, function(d) { return d.time * 1000;}));
   y.domain(d3.extent(data.results, function(d) { return eval("d.sensors." + sensorGroup[num][0])}));

@@ -178,19 +178,19 @@ function animate() {
         + tle.first_line + "<br/>"
         + tle.second_line
         + "</p>");
-    */
+*/
 
-    /* set projected position to CSS2DRenderer */
-    var target = satellite_mesh;
-    var projectedPosition = getProjection(target);
-    overlayView.setBillboardPosition(projectedPosition);
-    overlayView.update();
+/* set projected position to CSS2DRenderer */
+var target = satellite_mesh;
+var projectedPosition = getProjection(target);
+overlayView.setBillboardPosition(projectedPosition);
+overlayView.update();
 
-    /* animate */
-    requestAnimationFrame(animate);
-    render();
-    stats.update();
-    controls.update();
+/* animate */
+requestAnimationFrame(animate);
+render();
+stats.update();
+controls.update();
 }
 
 function render() {
@@ -224,6 +224,10 @@ function showGraph(num){
 
 function hideGraph(){
   removeGraph();
-  $("div#graph").hide();
+  $("div#graph").fadeout().hide();
   $("div#overlay").fadeIn();
 }
+
+$( "#graph" ).click(function() {
+  hideGraph();
+});
