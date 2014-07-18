@@ -1,13 +1,13 @@
 /* Draw Telemetry Graph using D3.js */
 var data;
 var sensorGroup = [
-["alt"], //0
-["bv"], //1
-["bt"], //2
-["sca","scpx","scmx","scpy","scmy","scpz","scmz"], //3
-["stpx","stmx","stpy","stmy","stpz","stmz"], //4
-["gx","gy","gz"], //5
-["mx","my","mz"] //6
+  ["alt"], //0
+  ["bv"], //1
+  ["bt"], //2
+  ["sca","scpx","scmx","scpy","scmy","scpz","scmz"], //3
+  ["stpx","stmx","stpy","stmy","stpz","stmz"], //4
+  ["gx","gy","gz"], //5
+  ["mx","my","mz"] //6
 ];
 
 var begin = moment().subtract("days",360).format('X');
@@ -40,7 +40,8 @@ var svg = d3.select("#graph").append("svg")
 
 function selectGraph(num){
   svg.selectAll("circle").remove();
-  svg.selectAll("g").remove();
+  svg.selectAll(".legend").remove();
+  svg.selectAll("rect.legend").remove();
 
   x.domain(d3.extent(data.results, function(d) { return d.time * 1000;}));
   y.domain(d3.extent(data.results, function(d) { return eval("d.sensors." + sensorGroup[num][0])}));
@@ -76,4 +77,27 @@ function selectGraph(num){
     .attr("cy", function(d) { return y(eval("d.sensors." + sensorGroup[num][i])); })
     .style("fill", function(d) { return color(i); });
   }
+
+  var legend = svg.selectAll(".legend")
+  .data(color.domain())
+  .enter().append("g")
+  .attr("class", "legend")
+  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+  .data(color.domain())
+  .attr("class", "legend")
+  .attr("x", width - 18)
+  .attr("y", 0)
+  .attr("width", 18)
+  .attr("height", 18)
+  .style("fill", color);
+
+  legend.append("text")
+  .attr("x", width - 24)
+  .attr("y", 9)
+  .attr("dy", ".35em")
+  .attr("fill", "#fff")
+  .style("text-anchor", "end")
+  .text(function(d,i) { return sensorGroup[num][i]; });
 }
