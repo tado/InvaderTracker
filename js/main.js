@@ -180,17 +180,17 @@ function animate() {
   + tle.first_line + "<br/>"
   + tle.second_line
   + "</p>");
-  */
+*/
 
-  /* set projected position to CSS2DRenderer */
-  var target = satellite_mesh;
-  var projectedPosition = getProjection(target);
-  overlayView.setBillboardPosition(projectedPosition);
-  overlayView.update();
+/* set projected position to CSS2DRenderer */
+var target = satellite_mesh;
+var projectedPosition = getProjection(target);
+overlayView.setBillboardPosition(projectedPosition);
+overlayView.update();
 
-  /* animate */
-  requestAnimationFrame(animate);
-  render();
+/* animate */
+requestAnimationFrame(animate);
+render();
   /*
   stats.update();
   */
@@ -222,15 +222,27 @@ function getProjection(target) {
 
 function showGraph(num){
   selectGraph(num);
-  $("div#graph").show();
+  $("div#graph").hide();
+  $("div#graph").show().fadeIn(1000);
   $("div#overlay").fadeOut();
 }
 
 function hideGraph(){
   $("div#graph").fadeOut();
   $("div#overlay").fadeIn();
+  $("div#graphtitle").empty();
+  for(var i = 0; i < $("#graphmenu a").length; i++){
+    $("#graphmenu a").removeClass("selected");
+  }
 }
 
 $("#graph").click(function() {
   hideGraph();
+});
+
+$("#graphmenu a").click(function() {
+  for(var i = 0; i < $("#graphmenu a").length; i++){
+    $("#graphmenu a").removeClass("selected");
+  }
+  　$(this).attr("class", "selected");
 });

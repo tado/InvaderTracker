@@ -31,26 +31,14 @@ body {
   font-family: "Menlo", "Courier New", Courier, monospace;
   font-size: 10px;
 }
-#graph {
+#container{
+  /* margin-top: 20px;*/
   position: absolute;
   top:0;
   left:0;
-  background-color: rgba(0,0,0,0.65);
-  color: rgba(255,255,255,0.8);
-  font-family: "Menlo", "Courier New", Courier, monospace;
-  font-size: 10px;
+  z-index: -10;
 }
-#container{
-  /* margin-top: 20px;*/
-}
-a {
-  color: rgba(255,255,255,0.5);
-  text-decoration: none;
-}
-a:hover {
-  color: rgba(255,255,255,1.0);
-  text-decoration: none;
-}
+
 img {
   border: none;
 }
@@ -60,10 +48,54 @@ img {
   font-size: 6px;
   color:rgba(255,255,255,0.85);
 }
+#graph {
+  position: absolute;
+  top:0;
+  left:0;
+  background-color: rgba(0,0,0,0.75);
+  color: rgba(255,255,255,0.8);
+  font-family: "Menlo", "Courier New", Courier, monospace;
+  font-size: 10px;
+}
+#graph svg{
+  opacity: 0.6;
+}
 #graphmenu{
+  margin-top: 40px;
   list-style: none;
   padding-left: 0;
   line-height: 2;
+}
+#graphmenu a {
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+}
+#graphmenu a:hover {
+  color: rgba(255,255,255,1.0);
+}
+#graphmenu a.selected {
+  color: rgba(255,255,255,1.0);
+}
+#graphtitle{
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+}
+#graphtitle h1{
+  margin:0;
+  padding:0;
+  color: rgba(255,255,255,0.15);
+  font-size: 80px; 
+  text-align: right;
+  line-height: 1;
+}
+#graphtitle p{
+  margin:0;
+  padding:0;
+  color: rgba(255,255,255,0.5);
+  font-size: 20px; 
+  text-align: right;
+  line-height: 1;
 }
 /* for D3.js graph */
 .axis path,
@@ -82,6 +114,6 @@ img {
 .lavel{
   color: rgba(255,255,255,0.8);
 }
-#graph svg{
-  opacity: 0.6;
+.x.axis path {
+  display: none;
 }
