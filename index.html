@@ -6,6 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   <link rel="stylesheet" href="css/style.css" />
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
   <div id ="overlay"></div>
@@ -14,15 +15,15 @@
   <div id="about">
     <a href="http://artsat.jp/" target="_blank"><img src="./img/logo.jpg" /></a>
     <h1>ARTSAT1: INVADER - realtime tracker β</h1>
-    <ul>
+    <ul id="graphmenu">
       <!-- li><a href='https://github.com/tado/InvaderTracker' target="_blank">このページについて</a></li -->
-      <li><a href='javascript:showGraph(0)'>Altitude</a></li>
-      <li><a href='javascript:showGraph(1)'>Battery Voltage</a></li>
-      <li><a href='javascript:showGraph(2)'>Battery Temperature</a></li>
-      <li><a href='javascript:showGraph(3)'>Solar Battery Current</a></li>
-      <li><a href='javascript:showGraph(4)'>Solar Battery Temperature</a></li>
-      <li><a href='javascript:showGraph(5)'>Gyrometer</a></li>
-      <li><a href='javascript:showGraph(6)'>Magnetometer</a></li>
+      <li><a href='javascript:showGraph(0)'><i class="fa fa-rocket fa-2x fa-fw"></i>&nbsp;Altitude</a></li>
+      <li><a href='javascript:showGraph(1)'><i class="fa fa-bolt fa-2x fa-fw"></i>&nbsp;Battery Voltage</a></li>
+      <li><a href='javascript:showGraph(2)'><i class="fa fa-bolt fa-2x fa-fw"></i>&nbsp;Battery Temperature</a></li>
+      <li><a href='javascript:showGraph(3)'><i class="fa fa-sun-o fa-2x fa-fw"></i>&nbsp;Solar Battery Current</a></li>
+      <li><a href='javascript:showGraph(4)'><i class="fa fa-sun-o fa-2x fa-fw"></i>&nbsp;Solar Battery Temperature</a></li>
+      <li><a href='javascript:showGraph(5)'><i class="fa fa-cube fa-2x fa-fw"></i>&nbsp;Gyrometer</a></li>
+      <li><a href='javascript:showGraph(6)'><i class="fa fa-magnet fa-2x fa-fw"></i>&nbsp;Magnetometer</a></li>
     </ul>
     <div id="tle"></div>
   </div>

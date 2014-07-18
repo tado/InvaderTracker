@@ -24,10 +24,7 @@ body {
   top: 0px;
   padding: 20px 10px;
   text-align: left;
-  font-size: 10px;
-}
-#about ul{
-  padding-left:1em;
+  font-size: 12px;
 }
 #tle {
   color:rgba(255,255,255,0.5);
@@ -47,8 +44,12 @@ body {
   /* margin-top: 20px;*/
 }
 a {
-  color: #fff;
-  text-decoration: underline;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+}
+a:hover {
+  color: rgba(255,255,255,1.0);
+  text-decoration: none;
 }
 img {
   border: none;
@@ -59,14 +60,19 @@ img {
   font-size: 6px;
   color:rgba(255,255,255,0.85);
 }
-
+#graphmenu{
+  list-style: none;
+  padding-left: 0;
+  line-height: 2;
+}
 /* for D3.js graph */
 .axis path,
 .axis line,
 .axis text {
   fill: none;
-  stroke: rgba(255,255,255,0.5);
-  font-weight: 100;
+  stroke: rgba(255,255,255,0.75);
+  font-weight: 10;
+  font-family: "Menlo", "Courier New", Courier, monospace;
 }
 .line {
   fill: none;
@@ -75,4 +81,7 @@ img {
 }
 .lavel{
   color: rgba(255,255,255,0.8);
+}
+#graph svg{
+  opacity: 0.6;
 }

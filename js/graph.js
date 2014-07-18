@@ -22,12 +22,11 @@ function artsat_invader_sensor_data_cb(callback_data){
   data = callback_data;
 }
 
-var margin = {top:200, right: 40, bottom: 40, left: 200};
+var margin = {top:200, right: 40, bottom: 40, left: 240};
 var width = window.innerWidth - margin.left - margin.right;
 var height = window.innerHeight - margin.top - margin.bottom;
 var x = d3.time.scale().range([0, width]);
 var y = d3.scale.linear().range([height, 0]);
-var color = d3.scale.category10();
 var timeFormat = d3.time.format("%x");
 var xAxis = d3.svg.axis().scale(x).tickFormat(timeFormat).orient("bottom").ticks(5);
 var yAxis = d3.svg.axis().scale(y).orient("left").ticks(5);
@@ -39,9 +38,10 @@ var svg = d3.select("#graph").append("svg")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 function selectGraph(num){
+  var color = d3.scale.category10();
+
   svg.selectAll("circle").remove();
-  svg.selectAll(".legend").remove();
-  svg.selectAll("rect.legend").remove();
+  svg.selectAll("g").remove();
 
   x.domain(d3.extent(data.results, function(d) { return d.time * 1000;}));
   y.domain(d3.extent(data.results, function(d) { return eval("d.sensors." + sensorGroup[num][0])}));
@@ -82,22 +82,20 @@ function selectGraph(num){
   .data(color.domain())
   .enter().append("g")
   .attr("class", "legend")
-  .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+  .attr("transform", function(d, i) { return "translate(0," + i * 15 + ")"; });
 
   legend.append("rect")
-  .data(color.domain())
-  .attr("class", "legend")
-  .attr("x", width - 18)
+  .attr("x", width - 14)
   .attr("y", 0)
-  .attr("width", 18)
-  .attr("height", 18)
+  .attr("width", 14)
+  .attr("height", 14)
   .style("fill", color);
 
   legend.append("text")
   .attr("x", width - 24)
   .attr("y", 9)
   .attr("dy", ".35em")
-  .attr("fill", "#fff")
+  .attr("fill", "rgba(255,255,255,0.75)")
   .style("text-anchor", "end")
   .text(function(d,i) { return sensorGroup[num][i]; });
 }
