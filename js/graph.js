@@ -66,6 +66,9 @@ var sensorGroup = [
 
     x.domain(d3.extent(data.results, function(d) { return d.time * 1000;}));
     y.domain(d3.extent(data.results, function(d) { return eval("d.sensors." + sensorGroup[num][0])}));
+    if(num == 6){
+      y.domain(d3.extent(data.results, function(d) { return eval("d.sensors." + sensorGroup[num][sensorGroup[num].length-1])}));
+    }
 
     svg.append("g")
     .attr("class", "x axis")

@@ -77,7 +77,7 @@ function init() {
   /* scene */
   container = document.getElementById( 'container' );
   camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 50000 );
-  camera.position.z = -18000;
+  camera.position.z = -15000;
   scene = new THREE.Scene();
   group = new THREE.Object3D();
   projector = new THREE.Projector(window.innerWidth, window.innerHeight);
