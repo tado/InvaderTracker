@@ -222,14 +222,13 @@ function getProjection(target) {
 
 function showGraph(num){
   selectGraph(num);
-  $("div#graph").hide();
-  $("div#graph").show().fadeIn(1000);
+  $("div#graph").hide().fadeIn("fast");
   $("div#overlay").fadeOut();
 }
 
 function hideGraph(){
-  $("div#graph").fadeOut();
-  $("div#overlay").fadeIn();
+  $("div#graph").hide();
+  $("div#overlay").fadeIn("fast");
   $("div#graphtitle").empty();
   for(var i = 0; i < $("#graphmenu a").length; i++){
     $("#graphmenu a").removeClass("selected");
@@ -237,6 +236,9 @@ function hideGraph(){
 }
 
 $("#graph").click(function() {
+  hideGraph();
+});
+$("#about").click(function() {
   hideGraph();
 });
 

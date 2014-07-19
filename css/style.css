@@ -61,10 +61,13 @@ img {
   opacity: 0.6;
 }
 #graphmenu{
-  margin-top: 40px;
+  position: absolute;
+  top: 200px;
+  left: 0px;
   list-style: none;
   padding-left: 0;
   line-height: 2;
+  text-align: left;
 }
 #graphmenu a {
   color: rgba(255,255,255,0.3);

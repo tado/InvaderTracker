@@ -126,5 +126,5 @@ var sensorGroup = [
     $("div#graphtitle").empty();
     $("div#graphtitle").append('<h1>' + sensorTitle[num] + '</h1>').hide().fadeIn();
     $("div#graphtitle").append('<p>' + sensorSubTitle[num] + '</p>').hide().fadeIn();
-    $("div#graph").hide().fadeIn();
+    $("div#graph").hide().fadeIn("fast");
   }
